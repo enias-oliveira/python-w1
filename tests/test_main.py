@@ -1,22 +1,31 @@
 #!/usr/bin/env python3
 import pytest
 
-from main import enqueue, dequeue, priority_queue
+from main import enqueue, dequeue
 
 
 @pytest.fixture
 def empty_priority_queue():
-    return priority_queue
+
+    test_priority_queue = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+    }
+
+    return test_priority_queue
 
 
 @pytest.fixture
 def one_patient_priority_queue():
     test_priority_queue = {
-        "Não urgência": [],
-        "Pouca Urgência": [],
-        "Urgência": [],
-        "Muito Urgente": ["Joaquim Bastos"],
-        "Emergência": [],
+        1: [],
+        2: [],
+        3: [],
+        4: ["Joaquim Bastos"],
+        5: [],
     }
 
     return test_priority_queue
@@ -25,11 +34,11 @@ def one_patient_priority_queue():
 @pytest.fixture
 def full_patient_priority_queue():
     test_priority_queue = {
-        "Não urgência": ["Ana Pereira"],
-        "Pouca Urgência": ["Victor da Silva"],
-        "Urgência": ["José Almeida", "Vinicius Cruz"],
-        "Muito Urgente": ["Joaquim Bastos", "Matheus Garcia"],
-        "Emergência": ["Viviane dos Reis"],
+        1: ["Ana Pereira"],
+        2: ["Victor da Silva"],
+        3: ["José Almeida", "Vinicius Cruz"],
+        4: ["Joaquim Bastos", "Matheus Garcia"],
+        5: ["Viviane dos Reis"],
     }
 
     return test_priority_queue
@@ -40,11 +49,11 @@ def test_enqueue_empty_queue(empty_priority_queue):
     patient = ("José Almeida", 3)
 
     expected = {
-        "Não urgência": [],
-        "Pouca Urgência": [],
-        "Urgência": ["José Almeida"],
-        "Muito Urgente": [],
-        "Emergência": [],
+        1: [],
+        2: [],
+        3: ["José Almeida"],
+        4: [],
+        5: [],
     }
 
     actual = enqueue(empty_priority_queue, patient)
@@ -57,11 +66,11 @@ def test_enqueue_with_one_patient_in_queue(one_patient_priority_queue):
     patient = ("José Almeida", 3)
 
     expected = {
-        "Não urgência": [],
-        "Pouca Urgência": [],
-        "Urgência": ["José Almeida"],
-        "Muito Urgente": ["Joaquim Bastos"],
-        "Emergência": [],
+        1: [],
+        2: [],
+        3: ["José Almeida"],
+        4: ["Joaquim Bastos"],
+        5: [],
     }
 
     actual = enqueue(one_patient_priority_queue, patient)
@@ -73,15 +82,29 @@ def test_dequeue_full_queue(full_patient_priority_queue):
 
     expected = (
         {
-            "Não urgência": ["Ana Pereira"],
-            "Pouca Urgência": ["Victor da Silva"],
-            "Urgência": ["José Almeida", "Vinicius Cruz"],
-            "Muito Urgente": ["Joaquim Bastos", "Matheus Garcia"],
-            "Emergência": [],
+            1: ["Ana Pereira"],
+            2: ["Victor da Silva"],
+            3: ["José Almeida", "Vinicius Cruz"],
+            4: ["Joaquim Bastos", "Matheus Garcia"],
+            5: [],
         },
         "Viviane dos Reis",
     )
 
     actual = dequeue(full_patient_priority_queue)
+
+    assert actual == expected
+
+
+def test_dequeue_one_pacient(one_patient_priority_queue, empty_priority_queue):
+
+    print(empty_priority_queue)
+
+    expected = (
+        empty_priority_queue,
+        "Joaquim Bastos",
+    )
+
+    actual = dequeue(one_patient_priority_queue)
 
     assert actual == expected
