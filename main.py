@@ -20,7 +20,9 @@ def enqueue(priority_queue, patient):
 
 def dequeue(priority_queue):
 
-    for pacients in reversed(priority_queue.values()):
+    for i in range(5, 0, -1):
+
+        pacients = priority_queue[i]
 
         if len(pacients) > 0:
             pacient = pacients.pop(0)
