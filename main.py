@@ -1,43 +1,29 @@
 #!/usr/bin/env python3
 
 priority_queue = {
-    "Não urgência": [],
-    "Pouca Urgência": [],
-    "Urgência": [],
-    "Muito Urgente": [],
-    "Emergência": [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
 }
 
 
 def enqueue(priority_queue, patient):
 
-    priority_index = [
-        None,
-        "Não urgência",
-        "Pouca Urgência",
-        "Urgência",
-        "Muito Urgente",
-        "Emergência",
-    ]
-
     patient_name, patient_priority = patient
 
-    priority_index = priority_index[patient_priority]
-
-    priority_queue[priority_index].append(patient_name)
+    priority_queue[patient_priority].append(patient_name)
 
     return priority_queue
 
 
 def dequeue(priority_queue):
 
-    priority_index = [
-        None,
-        "Não urgência",
-        "Pouca Urgência",
-        "Urgência",
-        "Muito Urgente",
-        "Emergência",
-    ]
+    for pacients in reversed(priority_queue.values()):
 
-    return (priority_queue, "Teste")
+        if len(pacients) > 0:
+            pacient = pacients.pop(0)
+            break
+
+    return (priority_queue, pacient)
